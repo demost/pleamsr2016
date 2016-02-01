@@ -1,0 +1,504 @@
+-------------------
+Issues Analysis
+-------------------
+
+>>> Issues Tracker Problems
+
+API conformance : an exception should not thrown before a library update or according some specification (e.g. JDK or Interface) or adopted by community.  
+Destructive Wrapping : - same definition of anti-pattern. -
+javadoc inconsistency or incompatible : exception thrown in scenarios not (correctly) defined in javadoc.
+imprecise error message : - clear definition -
+optimization -  removing throw exception : exception cause problems in library or application performance.
+definition of exception type : the type of exception used or applied is not adequate.
+catch raw type : clear definition.
+unexpected throw exception : exception thrown by an bug.
+from checked to runtime: - same definition of anti-pattern - 
+catching and ignore : - same definition of anti-pattern -
+log and return : - same definition of anti-pattern -
+printstacktrace : - clear definition - 
+close stream : - clear definition -
+unnecessary catch exception : unnecessary flows
+
+------------------------------------------------------------------------------------------------------------
+CC-3.2.1 (#total 85 issues | search string: "exception") // http://issues.apache.org/jira/browse/COLLECTIONS
+------------------------------------------------------------------------------------------------------------
+
+#411 (javadoc problem)
+Exception in thread "main" java.lang.IndexOutOfBoundsException: Index: 5, Size: 4
+at java.util.ArrayList.add(ArrayList.java:367)
+at org.apache.commons.collections.map.ListOrderedMap.put(ListOrderedMap.java:437)
+at org.apache.commons.collections.map.ListOrderedMap.putAll(ListOrderedMap.java:245)
+at Test.main(Test.java:19)
+msg: "The documentation does not specify anything like this".
+
+#355 (API conformance problem)
+java.lang.ClassCastException: org.apache.commons.collections.map.ListOrderedMap
+at sun.reflect.GeneratedMethodAccessor279.invoke(Unknown Source)
+at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+at java.lang.reflect.Method.invoke(Method.java:585) 
+at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:287)
+at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:181)
+at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation
+msg:"...I have upgraded common collection jar to 3.2 version. After that I got a class cast exception..."
+
+#346 (javadoc problem)
+Exception in thread "main" java.lang.UnsupportedOperationException
+at java.util.AbstractList.remove(AbstractList.java:172)
+at java.util.AbstractList$Itr.remove(AbstractList.java:437)
+at java.util.AbstractList.removeRange(AbstractList.java:662)
+at java.util.AbstractList.clear(AbstractList.java:258)
+at org.apache.commons.collections.list.SetUniqueList.decorate(SetUniqueList.java:80)
+
+#98 (Destructive Wrapping)
+"The code for BlockingBuffer throws BufferUnderflowException when a
+InterruptedException is thrown. But, the original InterruptedException is not
+included or wrapped by the new BufferUnderflowException. This makes it
+difficult to determine if the thread was truly interrupted."
+
+#385 (javadoc inconsistency problem)
+"The Javadoc comment below states that the method "throws NullPointerException if the collection or array is null". " (CollectionUtils.addAll(..))
+
+#566 (javadoc inconsistency problem)
+"In case a null comparator was provided natural ordering should be used, as stated in the javadoc."
+
+#215 (javadoc inconsistency problem)
+"The javadocs in DefaultedMap is very inconsistent."
+
+#150 (imprecise error message)
+"When an insertion into a PredicatedSet (Map, etc.) fails, the exception thrown is very generic"
+
+#402 (javadoc inconsistency problem)
+"Inconsistent Javadoc comment and code in intersection(List list1,List list2)in org.apache.commons.collections.ListUtils". "The Javadoc comment below states that the method "throws NullPointerException if either list is null". " "...However, when called with a null list1 and an empty list2(i.e., "intersection((List)null, new ArrayList())"), the method executes normally without throwing any exception.".
+
+#391 (javadoc inconsistency problem)
+"Inconsistent Javadoc comment and code for toProperties(final Map<K, V>) in org.apache.commons.collections.MapUtils" "The Javadoc comment below states that the parameter map "..., may not be null":" ... "However, the method return normally without throwing any exception when called with null."
+
+#35 (javadoc inconsistency problem | API conformance problem)
+"The exception is documented in the javadoc for
+IteratorChain.hasNext(), but the behavior may be inconsistent with the Iterator interface spec."
+
+#41 (javadoc inconsistency)
+"In add(final E object) method of TreeBag.java, the parameter object is not null-checked in throw IlligalArgumentException statement."
+
+#400 (javadoc inconsistency)
+"Inconsistent Javadoc comment and code in addIgnoreNull(Collection<T>, T) in org.apache.commons.collections.CollectionUtils"
+
+#401 (javadoc inconsistency)
+"Inconsistent Javadoc comment and code in removeAll(Collection<E>, Collection<?>) in org.apache.commons.collections.ListUtils"
+
+#377 (javadoc inconsistency)
+"CollatingIterator's javadoc states that natural sort ordering will be used when null is passed as the Comparator argument to any of the constructors accepting one (and for the nullary constructor). The implementation of least() does not appear to account for the natural sort order case."
+
+#136 (optimization - removing throw exception)
+"The attached patch improves the performance of CollectionUtils.getFreq(Object, Map) by using a test in place of a thrown exception."
+
+#186 (javadoc inconsistency | imprecise thrown exception (ClassCastException ~ IllegalArgumentException)
+"TreeBidiMap.put(Object, Object) throws ClassCastException"
+
+#316 (javadoc inconsistency)
+"LRUMap constructor javadoc and behavior are inconsistent (maxSize cannot be less than 0)"
+
+#331 (javadoc inconsistency)
+"CollatingIterator NPE when Comparator is null"
+
+#134 (javadoc inconsistency)
+"Actually the exception thrown is not an ArrayIndexOutOfBoundsException as stated in my report but an BufferOverflowException as expected."
+
+
+----------------------------------------------------------------------------------------------------
+CL-2.6 (#total 197 issues | search string: "exception") // http://issues.apache.org/jira/browse/LANG
+----------------------------------------------------------------------------------------------------
+
+#602 (definition of exception type)
+"ContextedRuntimeException no longer an 'unchecked' exception".
+
+#585 (catch raw type - Throwable)
+"exception.DefaultExceptionContext.getFormattedExceptionMessage catches Throwable"
+
+#686 (javadoc inconsistency | imprecise error message)
+"Exception in thread "main" java.lang.IllegalStateException: TimeToLive of -1 is less than 0: aXaXa"
+
+#751 (imprecise error message)
+"The message for the exception thrown by Validate.isInstance and isAssignableFrom do not mention the actual type, only the expected type."
+
+#79 (API conformance)
+"Calling ReflectionToStringBuilder.toString(null) throws an exception by design."
+
+#917 (unexpected throw exception)
+"Exception when combining custom and choice format in ExtendedMessageFormat".
+
+#446 (API conformance)
+"If not implementing Cloneable, throw exception."
+
+#969 (javadoc inconsistency)
+"This new method throws UnsupportedEncodingException when passed in a Charset object. Why? new String(byte[], Charset) does not throw this exception."
+
+#710 (unexpected throw exception)
+"When calling unescapeHtml4() on the String "&#03" (or any String that contains these characters) an Exception is thrown".
+
+#319 (javadoc inconsistency)
+"According the JDK docu of String(byte[], String) the JDK should throw in this case an java.lang.UnsupportedCharacterEncoding exception, but the IBM JDK 1.4.2 throws java.nio.charset.IllegalCharsetNameException."
+
+#160 (API conformance)
+"ExceptionUtils cannot handle J2EE-Exception in a default way".
+
+#857 (unexpected throw exception)
+"StringIndexOutOfBoundsException in CharSequenceTranslator"
+
+#744 (unexpected throw exception)
+"StringUtils throws java.security.AccessControlException on Google App Engine".
+
+#144 (API conformance)
+"EqualsBuilder.append(Object[], Object[]) throws NPE".
+
+#1056 (javadoc inconsistency)
+"StringEscapeUtils.unescapeHtml4 java.lang.IllegalArgumentException".
+
+#530 (unexpected throw exception)
+"parseDate cannot parse ISO8601 dates produced by FastDateFormat".
+
+#954 (API conformance | unexpected throw exception)
+"uncaught PatternSyntaxException in FastDateFormat on Android"
+
+#1061 (javadoc inconsistency)
+"FastDateParser error - timezones not handled correctly".
+
+#457 (unexpected throw exception)
+"NumberUtils createNumber thows a StringIndexOutOfBoundsException when only an "l" is passed in.".
+
+#412 (API conformance)
+"Appending a null value with fixed width causes a null pointer exception if getNullText() has not been set."
+
+#147 (unexpected throw exception)
+"StringUtils.chopNewLine doesn't handle a single char string of "\n"."
+
+#1070 (javadoc inconsistency)
+"Method documentation claims that ArrayUtils.add(null, null) = null. However, this is not true since this parameter combination leads to an exception."
+
+#171 (imprecise error message)
+"... improves the description of the possible exception messages in a couple of places"
+
+#89 (definition of exception type)
+"NestableException/Delegate is not serializable".
+
+#593 (API conformance)
+"The problem seems to be that in JDK 1.7 the "yyy" and "y" patterns now cause a four digit year with SimpleDateFormat - whereas previous JDK versions resulted in a 2 digit year (as FastDateFormat does)."
+
+#534 (API conformance)
+"Often these APIs correctly throw exceptions when there is an "exceptional event", but no results isn't exceptional, and it often shouldn't be."
+
+#673 (javadoc inconsistency)
+"WordUtils.abbreviate() throws undocumented StringIndexOutOfBoundsException."
+
+#1000 (unexpected throw exception)
+"ParseException when trying to parse UTC dates with Z as zone designator using DateFormatUtils.ISO_DATETIME_TIME_ZONE_FORMAT."
+
+
+#429 (unexpected throw exception)
+"NullPointerException (NPE) in FastDateFormat.getInstance(FastDateFormat.java:211)"
+
+#328 (unexpected throw exception)
+"LocaleUtils.toLocale() rejects strings with only language+variant".
+
+#43 (unexpected throw exception)
+"This causes the following Exception to be thrown in SystemUtils"
+
+#62 (unexpected throw exception)
+"ArrayUtils.isEquals() throws ClassCastException when array1 and array2 are different dimension"
+
+(comment) : I wouldn't relate 'unexpected throw exception' anymore from here.
+
+#507 (definition of exception type)
+"Also changed a thrown RuntimeException to be a thrown IllegalArgumentException as RuntimeException's aren't very happy to catch."
+
+#571 (definition of exception type)
+"throw IllegalParameterException when both parameters are null."
+
+#643 (javadoc inconsistency)
+"Javadoc StringUtils.left() claims to throw on negative len, but doesn't"
+
+#552 (javadoc inconsistency)
+"Agreed that at the least a javadoc update should be done."
+
+#609 (API conformance | definition of exception type)
+"The second one (method) would catch a ConcurrentException and transform it to a ConcurrentRuntimeException"
+
+#559 (API conformance | definition of exception type)
+"I was thinking about IllegalClassException, but it seems to have disappeared from LANG" ... "Go with IllegalArgumentException. It was the parent class of IllegalClassException."
+
+#493 (unnecessary catch exception)
+"Remove code that does not hold enough value to remain"
+
+#379 (definition of exception type)
+"... includes throwing an IllegalArgumentException for both date/calendar is null and unsupported fragments."
+
+#343 (javadoc inconsistency)
+"Validate methods should throw NullArgumentException on detecting null, not just IllegalArgumentException (its superclass)"
+
+#979 (imprecise error message)
+"wrong format descriptor for "invalid number of type parameters"
+
+#1003 (definition of exception type)
+"It should throw an IllegalArgumentException if duration is < 0 or period diff is < 0"
+
+#1022 (definition of exception type)
+"I expect it writes the input to the output without throw an exception"
+
+#822 (javadoc inconsistency)
+"Returning nulll is contrary to the Javadoc and the behaviour for other methods which would throw NumberFormatException."
+
+#762 (javadoc inconsistency)
+"Document ReflectionToStringBuilder and ToStringBuilder such that call sites use synchronized if the object passed in contains collections that are not thread-safe."
+
+#567 (definition of exception type | Destructive wrapping)
+"Changed code to catch ArrayStoreException and report IllegalArgument if types are not compatible" .... "Do you want to include the root cause to the IAE? I am not a fan of swapping exception types without chaining them."
+
+#369 (javadoc inconsistency)
+"ExceptionUtils not thread-safe"
+
+#102 (from checked to runtime)
+"Methods Entities.*escape(String) don't declare IOException so I decided to catch it and wrap within bare RuntimeException."
+
+#75 (API conformance)
+"NumberUtils.createBigDecimal("") NPE in Sun 1.3.1_08".
+
+#14 (Destructive wrapping)
+"Adds a Throwable cause support to NotImplementedException".
+
+#360 (javadoc inconsistency)
+"Throws NPEs for null input."
+
+#301 (catching and ignore)
+" we return null and not a runtime CloneNotSupportedException."
+
+#131 (definition of exception type)
+"Pass the a string containing "&;" (without double quotes) to StringEscapeUtils.unescapeHtml(). This will result in an StringIndexOutOfBoundsException."
+
+#52 (definition of exception type)
+"Validate.notNull throws a IllegalArgumentException but should throw a NullArgumentException"
+
+#753 (API conformance)
+"Validate.notNull() throws an IllegalArgumentException in commons-lang 2.6, but in 3.0.1 it throws a NullPointerException."
+
+#967 (catching and ignore | catching Exception)
+"Code should never catch and ignore all Throwables - ThreadDeath and VirtualMachineError must be rethrown".
+
+#938 (API conformance)
+"Test failure in FastDateParserTest and FastDateFormat_ParserTest when building with JDK8"
+
+
+-----------------------------------------------------------------------------------------------------
+EM-3.3 (#total 24 issues | search string: "exception") // https://github.com/easymock/easymock/issues
+-----------------------------------------------------------------------------------------------------
+
+#157 (API conformance)
+"Previous EasyMock v3.3 version works with instrumented classes and successfully creates mocks with their classes."
+
+#153 (javadoc inconsistency)
+"...mention this as a potential pitfall in your doc."
+
+#129 (javadoc inconsistency)
+"EasyMock cannot mock ViewCriteriaRow class".
+
+#128 (API conformance)
+"In Java 6 is works fine but in Java 7 there will be not stack trace."
+
+#84 (definition of exception type)
+"Despite printing the error, this example clearly shows that it's possible to fail replay without failing the test, because the control needs an AssertionError to propagate all the way out of the code under test to the unit test framework during replay."
+
+#55 (javadoc inconsistency)
+"MockBuilder.addMockedMethod should throw an IllegalArgumentException if the method is final. "
+
+#53 (definition of exception type)
+"if easymock is processing an expectattion failure and just throw a special exception in the case there is another mock called while calculating toString."
+
+#40 (imprecise error message)
+"I think this would clarify the message"
+
+#34 (destructive wrapping)
+"...  this clobbering of the stack trace is inconvenient in this scenario,"
+
+#33 (API conformance)
+"That project fixed the problem by upgrading to cglib 2.2."
+
+#27 (API conformance)
+"The problem is that non-threadsafe mocks which are used by multiple threads now cause exceptions to be thrown, whereas in 2.3 and earlier there was no exception thrown. "
+
+#15 (destructive wrapping)
+"That would preserve the whole stack trace..."
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+LJ-1.2.17 // (#total 47 issues | search string: "exception") https://bz.apache.org/bugzilla/buglist.cgi?quicksearch=log4j%20exception
+// (#total 261 issues | search string: "exception") https://issues.apache.org/jira/browse/LOG4J2-886?jql=project%20%3D%20LOG4J2%20AND%20text%20~%20%22exception%22
+-------------------------------------------------------------------------------------------------------------------------------------
+
+--- bugzilla ---
+
+#34974 (API conformance)
+"When running a simple project, of kind pluglet, in IBM RSM (or RSA) an exception is throw, ClassDefNotFoud: Layout of Log4j."
+
+#48430 (javadoc inconsistency)
+"I've got a strange error using log4j in one of my projects."
+
+#50226 (catching and ignore)
+"The Exception is catched and silenced".
+
+#52095 (javadoc inconsistency)
+"the Javadoc for the called method does not mention "null"".
+
+#49920 (log and return)
+"DailyRollingFileAppender.rollOver() will catch that exception and log it using error handler and then continue its flow. It will leave its QuietWriter qw field set to null".
+
+#56086 (printstacktrace)
+"Exceptions not thrown, simply printed to stack trace".
+
+#56291 (definition of exception type)
+"I would have expected that the doRenderMethod should be catching Throwable rather than Exception, or at least the NoClassDefFoundError."
+
+#58062 (close stream)
+"The problem here is that if an exception is thrown during the read process the method will exit without closing the stream and hence without releasing the file system resources".
+
+-- jira --
+
+#217 (close stream)
+"PluginManager does not close streams if exceptions occur during plugin init"
+
+#919 (catching and ignore)
+"it seems the place the exception was "lost" is in the LoggerContext.start() method, which has a try/finally without a catch."
+
+#1051 (definition of exception type)
+"We now catch NoClassDefFoundError and rethrow it as a IAE when trying to load a plugin like JmxRuntimeInputArgumentsLookup, which depends on JMX."
+
+#619 (catching and ignore)
+"The issue is that XmlConfiguration constructor (a) swallows exceptions..."
+
+#1025 (imprecise error message)
+"throw an Exception with a clear error message immediately".
+
+#1037 (javadoc inconsistency)
+"Fix the Javadoc to match the code..."
+
+#1158 (API conformance)
+"...we discussed the issues with our JUL compatibility with Java 8 ..."
+
+#66 (javadoc inconsistency)
+"Level.toLevel throws IllegalArgumentException instead of returning default Level".
+
+#834 (javadoc inconsistency)
+"In method loadClass we expect ClassNotFoundException. But if class comes from another java machine we can get NoClassDefFoundError."
+
+#204 (imprecise error message | definition of exception type)
+"... would it not be better if the error message indicated this more clearly?"
+
+#716 (catch raw type | catching and ignore)
+"The new solution is to catch and ignore any Throwable when configuring the JMX MBeans."
+
+#539 (javadoc inconsistency | API conformance)
+"I updated the docs to reflect that the log4j-api jar must be specified in the pluginpath." ... "The error you found seems to be a regression caused by the fix for LOG4J2-406 and LOG4J2-500."
+
+#728 (catching and ignore)
+"instead of catching and silently discarding the IOException, can you wrap it in a IllegalStateException (or even just an Error) and rethrow it".
+
+#862 (imprecise error message)
+" I am sure the error message is confusing and misleading"
+
+#238 (ignore InterruptedException)
+" It's slightly more complex to use because you have to synchronize on some object, and handle the Interrupted exception"
+
+#167 (log and return)
+" it will log an error and return null to the caller..."
+
+#1127 (catching raw type)
+"by catching an Exception we catch all subclasse..."
+
+#599 (throwing raw type)
+" as it's signature is "V call() throws Exception"..."
+
+#594 (catching and ignore)
+" It's possible that there's some sort of URI exception or similar that was being swallowed."
+
+------------------------------------------------------------------------------
+MF-1.3 // (#total 18 issues | search string: "exception") https://issues.apache.org/jira/browse/MSHARED
+------------------------------------------------------------------------------
+
+#128 (imprecise error message)
+"the exception message does not reveal which file could not been opened.".
+
+
+------------------------------------------------------------------------------
+PI-1.22 // (#total 0 issues | search string: "exception") https://github.com/codehaus-plexus/plexus-interpolation/issues
+------------------------------------------------------------------------------
+
+
+
+------------------------------------------------------------------------------
+PU-3.0.21 // (#total 4 issues | search string: "exception") https://github.com/codehaus-plexus/plexus-utils/issues
+	//	(#total 40 issues | search string: "exception") https://github.com/codehaus-plexus/plexus-utils/tree/master/jira
+------------------------------------------------------------------------------
+
+--- github issues ---
+
+
+--- jira ---
+
+#112 (definition of exception type)
+"A CommandLineException class hierarchy would be great for finest execution check."
+
+#131 (catching and ignore)
+"Improper exception handling in executeCommandLine...If the StreamConsumer throws an exception, it is swallowed quietly."
+
+#132 (definition of exception type)
+"XmlPullParserException to use generic getCause() method for access to detail exception. solution is to use the Exception(string, Throwable) parameter available since 1.4 jdk."
+
+#138 (ignoring interruptedException)
+"When the interruptedexception is throw due to process timeout, the StreamPumper is not terminated or disabled in any way"
+
+#31 (javadoc inconsistency)
+"IllegalArgumentException forking during javadoc"
+
+#53 (definition of exception type)
+"CommandLineUtils.executeCommandLine() to throw TimeoutException on timeout"
+
+#67 (definition of exception type)
+"CommandLineUtils.executeCommandLine() throws an InterruptedException no matter if timeout occurred or some other issue.\n\nIt would be useful for one to know when the reason was simply the command timing out and throwing TimeoutException  will make that possible."
+
+#7 (unnecessary catch exception)
+"there were a lot of unnecessary NullPointerExceptions thrown and caught"
+
+------------------------------------------------------------------------------
+SA-1.7.7 (#total 72 issues | search string: "exception") http://jira.qos.ch/issues/?jql=project%20%3D%20SLF4J%20AND%20text%20~%20%22exception%22
+------------------------------------------------------------------------------
+
+#55 (definition of exception type)
+"throw better kind of exception when back logging system is log4j".
+
+#219 (API conformance)
+"But for ibm jdk 1.6 this exception is thrown."
+
+#183 (javadoc inconsistency)
+"Can someone update the javadocs for the relevant Logger methods to reflect this new behavior?"
+
+#137 (javadoc inconsistency)
+"According to JavaDoc, getClassLoader() can be null"
+
+#49 (javadoc inconsistency)
+"returns null or throws which exception?"
+
+#224 (definition of exception type)
+"it would be nice to provide all the methods that are exposed by the public log4j API and to throw for example an exception like an UnsupportedOperationException (with a description message) when the method is not yet implemented."
+
+#281 (catching raw type)
+"StaticLoggerBinders init() behaviour, which catches Throwable ..."
+
+#103 (definition of exception type)
+"MessageFormatter will catch it and print an error message."
+
+#109 (definition of exception type)
+"... generate Exceptions when being toString'ed"
+
+#101 (definition of exception type)
+"There is probably more that can be done around preventing recursion disasters - possibly throwing an Error?"
+
+#167 (definition of exception type)
+"MarkerFactory and MDC have a similar problem. MarkerFactory will throw a NullPointerException and MDC will throw an IllegalStateException."
